@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <time.h>
+
+#define MAX INT_MAX
+
+int minKey(int key[], int set[], int n)
+{
+    int min = MAX, min_id;
+    for (int i = 0; i < n; i++)
+    {
+        if (set[i] == 0 && key[i] < min)
+        {
+            min = key[i];
+            min_id = i;
+        }
+    }
+    return min_id;
+}
+int main()
+{
+    int n, parent[100], key[100], set[100], graph[100][100];
+    int mincost = 0;
+    clock_t start, end;
+    printf("Enter the number of vertices in the graph: ");
+    scanf("%d", &n);
+    printf("Enter the adjacency matrix:\n");
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+    start = clock();
+
+    for (int i = 0; i < n; i++)
+    {
+        key[i] = MAX;
+        set[i] = 0;
+    }
+    key[0] = 0;
+    parent[0] = -1;
+
+    for (int count = 0; count < n - 1; count++)
+    {
+        int i = minKey(key, set, n);
+        set[i] = 1;
+        for (int j = 0; j < n; j++)
+        {
+            if (graph[i][j] &&
+                set[j] == 0 &&
+                graph[i][j] < key[j])
+            {
+                parent[j] = i;
+                key[j] = graph[i][j];
+            }
+        }
+    end = clock();
+    printf("\nEdge\tWeight\n");
+    for (int i = 1; i < n; i++)
+    {
+        printf("%d - %d\t%d\n",parent[i],i, graph[parent[i]][i]);
+        mincost += graph[parent[i]][i];
+    }
+    printf("\nMinimum cost is %d\n", mincost);
+    double time = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("Execution time: %f\n", time);
+    return 0;
+}
