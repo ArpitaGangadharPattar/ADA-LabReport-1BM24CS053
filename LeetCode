@@ -1,0 +1,81 @@
+1)Leet Code exercises on topological sorting(207).
+bool canFinish(int numCourses, int** prerequisites, int prerequisitesSize, int* prerequisitesColSize) {
+    int inDegree[1000] = {0};
+    int queue[1000], front, rear, count;
+    front = rear = count = 0;
+
+    for (int i = 0; i < prerequisitesSize; i++) {
+        int course = prerequisites[i][0];
+        inDegree[course]++;
+    }
+    for (int i = 0; i < numCourses; i++) {
+        if (inDegree[i] == 0) {
+            queue[rear++] = i;
+        }
+    }
+    while (front < rear) {
+        int currCourse = queue[front++];
+        count++;
+        for (int i = 0; i < prerequisitesSize; i++) {
+            if (prerequisites[i][1] == currCourse) {
+                int depCourse = prerequisites[i][0];
+                inDegree[depCourse]--;
+               
+                if (inDegree[depCourse] == 0) {
+                    queue[rear++] = depCourse;
+                }
+            }
+        }
+    }
+    return count == numCourses;
+}
+
+2)Leet Code exercise on Knapsack problem using dynamic 
+Programming(801).
+int minSwap(int* nums1, int nums1Size, int* nums2, int nums2Size) {
+    int x = 0, y = 1;
+
+    for (int i = 1; i < nums1Size; i++) {
+        int a = x, b = y;
+        if (nums1[i - 1] >= nums1[i] || nums2[i - 1] >= nums2[i]) {
+            x = b;
+            y = a + 1;
+        }
+        else {
+            y = b + 1;
+
+            if (nums1[i - 1] < nums2[i] &&
+                nums2[i - 1] < nums1[i]) 
+                x = (x < b) ? x : b;
+                y = (y < a + 1) ? y : (a + 1);
+        }
+    }
+    return (x < y) ? x : y;
+}
+
+3)Leet Code exercise on Floyd’s algorithm(287).
+int findDuplicate(int* nums, int numsSize) 
+{
+    int slow1, fast, slow2;
+    slow1=fast=slow2=0;
+
+    while(true)
+    {
+        slow1=nums[slow1];
+        fast=nums[nums[fast]];
+        if(slow1==fast)
+        {
+            break;
+        }
+    }
+
+    while(true)
+    {
+        slow1=nums[slow1];
+        slow2=nums[slow2];
+        if(slow1==slow2)
+        {
+               return slow2;
+        }
+    }
+}
