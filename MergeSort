@@ -1,0 +1,55 @@
+#include<stdio.h>
+
+void MergeSort(int a[],int b[],int m,int n)
+{
+    int i=0,j=0,k=0,c[100];
+    while(i<m && j<n)
+    {
+        if(a[i]<b[j])
+         {
+             c[k]=a[i];
+            k++;
+            i++;
+         }
+        else
+        {
+            c[k]=b[j];
+            k++;
+            j++ ;
+        }
+    }
+    while(i<m)
+    {
+        c[k]=a[i];
+        k++;
+        i++;
+    }
+    while(j<n)
+    {
+        c[k]=b[j];
+        k++;
+        j++;
+    }
+    printf("Merged Array:");
+    for(int i=0;i<(m+n);i++)
+        printf("%d\t",c[i]);
+}
+
+int main()
+{
+    int n,m,a[100],b[100];
+    printf("Enter the number of elements in First array:");
+    scanf("%d",&m);
+    printf("Enter the number of elements of first array:");
+    for(int i=0;i<m;i++)
+        scanf("%d",&a[i]);
+
+    printf("Enter the number of elements in Second array:");
+    scanf("%d",&n);
+    printf("Enter the number of elements of first array:");
+    for(int i=0;i<n;i++)
+        scanf("%d",&b[i]);
+
+    MergeSort(a,b,m,n);
+    return 0;
+}
